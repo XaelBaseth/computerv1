@@ -24,42 +24,39 @@ class Polynomial:
 		"""Returns the reduced form as a string"""
 		terms = []
 		
-		if self.a.coef != 0:
-			terms.append(f"{self.a.coef} * X^2")
+		if self.c.coef != 0 or (self.a.coef == 0 and self.b.coef == 0):
+			terms.append(f"{self.c.coef} * X^0")
 		if self.b.coef != 0:
 			terms.append(f"{self.b.coef} * X^1")
-		if self.c.coef != 0 or len(terms) == 0:
-			terms.append(f"{self.c.coef} * X^0")
-		
-		result = ""
-		for i, term in enumerate(terms):
-			if i == 0:
-				result += term
+		if self.a.coef != 0:
+			terms.append(f"{self.a.coef} * X^2")
+
+		result = terms[0]
+		for term in terms[1:]:
+			if term.startswith("-"):
+				result += f" - {term[1:]}"
 			else:
-				if term.startswith("-"):
-					result += f" - {term[1:]}"
-				else:
-					result += f" + {term}"
-		
+				result += f" + {term}"
+
 		return f"Reduced form: {result} = 0"
 	
-	def resolve(self, verbose: bool = False):
+	def resolve(self):
 		degree = self.get_degree()
 		print(self)
 		
 		if degree == 0:
-			Polynomial.ResolveDefault(self.c, verbose)
+			Polynomial.ResolveDefault(self.c)
 		elif degree == 1:
-			Polynomial.ResolveLinear(self.b, self.c, verbose)
+			Polynomial.ResolveLinear(self.b, self.c)
 		elif degree == 2:
-			Polynomial.ResolveQuadratic(self.a, self.b, self.c, verbose)
+			Polynomial.ResolveQuadratic(self.a, self.b, self.c)
 		else:
 			print(f"Polynomial degree: {degree}")
 			print("The polynomial degree is strictly greater than 2, I can't solve.")
 	
 	@staticmethod
-	def ResolveDefault(c: Unknown, verbose: bool):
-		"""Résout degré 0 : c = 0"""
+	def ResolveDefault(c: Unknown):
+		"""Resolve degree 0 : c = 0"""
 		print("Polynomial degree: 0")
 		if c.coef == 0:
 			print("Any real number is a solution.")
@@ -67,7 +64,7 @@ class Polynomial:
 			print("No solution.")
 	
 	@staticmethod
-	def ResolveLinear(b: Unknown, c: Unknown, verbose: bool):
+	def ResolveLinear(b: Unknown, c: Unknown):
 		"""Résout degré 1 : bx + c = 0"""
 		print("Polynomial degree: 1")
 		
@@ -83,24 +80,21 @@ class Polynomial:
 		print(f"{solution:.6f}")
 	
 	@staticmethod
-	def ResolveQuadratic(a: Unknown, b: Unknown, c: Unknown, verbose: bool):
+	def ResolveQuadratic(a: Unknown, b: Unknown, c: Unknown):
 		"""Résout degré 2 : ax² + bx + c = 0"""
 		print("Polynomial degree: 2")
 		if a.coef == 0:
-			return Polynomial.ResolveLinear(b, c, verbose)
+			return Polynomial.ResolveLinear(b, c)
 		
 		discriminant = b.coef ** 2 - 4 * a.coef * c.coef
-		
-		if verbose:
-			print(f"Δ = {discriminant}")
 		
 		if discriminant > 0:
 			print("Discriminant is strictly positive, the two solutions are:")
 			sqrt_delta = sqrt_newton(discriminant)
 			x1 = (-b.coef + sqrt_delta) / (2 * a.coef)
 			x2 = (-b.coef - sqrt_delta) / (2 * a.coef)
-			print(f"{x1:.6f}")
 			print(f"{x2:.6f}")
+			print(f"{x1:.6f}")
 		
 		elif discriminant == 0:
 			print("Discriminant is equal to zero, the solution is:")
