@@ -43,10 +43,12 @@ message: ## Display the building of files.
             @echo "\n$(YELLOW)[Starting to build...]$(DEF_COLOR)\n\n$(MAGENTA)"
 
 $(NAME): 
+			@make check_requirements
             @$(ECHO) "$(GREEN)[COMPUTORV1]:\tall files built successfully!$(DEF_COLOR)\n"
-			@python3 $(SRC_MAIN_FILE)
+			@pytest tests/test_computor.py
 
 check_requirements: ## Verify dependencies are installed.
+			@pip install -r requirements.txt
             @$(ECHO) "$(GREEN)[COMPUTORV1]:\tdependencies installed$(DEF_COLOR)\n"
 
 help: ## Print help on Makefile.
