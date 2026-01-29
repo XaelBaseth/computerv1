@@ -40,34 +40,34 @@ OBJF		=	.cache_exists
 all:       message $(NAME)
 
 message: ## Display the building of files.
-            @echo "\n$(YELLOW)[Starting to build...]$(DEF_COLOR)\n\n$(MAGENTA)"
+		@echo "\n$(YELLOW)[Starting to build...]$(DEF_COLOR)\n\n$(MAGENTA)"
 
 $(NAME): 
-			@make check_requirements
-            @$(ECHO) "$(GREEN)[COMPUTORV1]:\tall files built successfully!$(DEF_COLOR)\n"
-			@pytest tests/test_computor.py
+		@make check_requirements
+		@$(ECHO) "$(GREEN)[COMPUTORV1]:\tall files built successfully!$(DEF_COLOR)\n"
+		@pytest tests/test_computor.py
 
 check_requirements: ## Verify dependencies are installed.
-			@pip install -r requirements.txt
-            @$(ECHO) "$(GREEN)[COMPUTORV1]:\tdependencies installed$(DEF_COLOR)\n"
+		@pip install -r requirements.txt
+		@$(ECHO) "$(GREEN)[COMPUTORV1]:\tdependencies installed$(DEF_COLOR)\n"
 
 help: ## Print help on Makefile.
-                    @grep '^[^.#]\+:\s\+.*#' Makefile | \
-                    sed "s/\(.\+\):\s*\(.*\) #\s*\(.*\)/`printf "$(GRAY)"`\1`printf "$(DEF_COLOR)"`	\3 /" | \
-                    expand -t8
+				@grep '^[^.#]\+:\s\+.*#' Makefile | \
+				sed "s/\(.\+\):\s*\(.*\) #\s*\(.*\)/`printf "$(GRAY)"`\1`printf "$(DEF_COLOR)"`	\3 /" | \
+				expand -t8
 
 clean: ## Clean generated files and cache.
-                    @$(RM) __pycache__ .pytest_cache .mypy_cache
-                    @find $(SRC_DIR) -type d -name __pycache__ -exec $(RM) {} + 2>/dev/null || true
-                    @$(ECHO) "$(BLUE)[COMPUTORV1]:\tobject files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
+				@$(RM) __pycache__ .pytest_cache .mypy_cache
+				@find $(SRC_DIR) -type d -name __pycache__ -exec $(RM) {} + 2>/dev/null || true
+				@$(ECHO) "$(BLUE)[COMPUTORV1]:\tobject files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 fclean: ## Clean all generated file, including binaries.
-                    @make clean
-                    @$(RM) $(NAME) libft.a woody .cache_exists
-                    @$(ECHO) "$(CYAN)[COMPUTORV1]:\texec. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
+				@make clean
+				@$(RM) $(NAME) libft.a woody .cache_exists
+				@$(ECHO) "$(CYAN)[COMPUTORV1]:\texec. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 re: ## Clean and rebuild binary file.
-                    @make fclean all
-                    @$(ECHO) "\n$(GREEN)###\tCleaned and rebuilt everything for [COMPUTORV1]!\t###$(DEF_COLOR)\n"
+				@make fclean all
+				@$(ECHO) "\n$(GREEN)###\tCleaned and rebuilt everything for [COMPUTORV1]!\t###$(DEF_COLOR)\n"
 
 .PHONY:			all clean fclean re message help check_requirements
