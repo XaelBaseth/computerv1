@@ -1,5 +1,20 @@
 # Computor V1
 
+## A polynomial
+
+A polynomial is the sum of different terms containing a coefficient multiplied by a variable with an exponent.
+
+In the example
+$$3X^2 - 5X + 2$$
+
+- **$3X^2$** is a term, where the coefficient 3 is multiplied by X^2.
+- **$-5X$** is another terms where the coefficient 5 is multiplied by X (or X^1).
+- **$2$** is the final term where the coefficient 2 is multiplied by X^0 (which is 1).
+
+The coefficients are static; only the exponents differ between terms.
+
+Polynome are used when a phenomenon changes in an inconstant way (acceleration, deceleration, growth or loss) to modelise and do calculation on it: For example, to build a stable structures in architecture, bridge arches follow polynomial curves.
+
 ## About Polynomial Equations
 
 A **polynomial equation** is a mathematical equation where a variable is raised to various powers and multiplied by coefficients. The general form of a polynomial equation of degree 2 (quadratic) is:
@@ -28,5 +43,7 @@ Polynomial equations can be:
 ### Running the Program
 
 Execute the program with a polynomial equation as input and it will output all solutions in the real number set (or indicate if solutions exist only in complex numbers).
+
+The Makefile allows the tests to run in a virtual environment.
 
 
