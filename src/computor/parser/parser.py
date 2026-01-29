@@ -76,8 +76,14 @@ class Parser:
 				self._token = self._lexer.lexer(True)
 				if self._token.type == TOKEN_TYPE['EOF']:
 					self._lexer.raise_KeyError()
+		
+		if not hasattr(self, '_coefficients'):
+			self._coefficients = {0: Unknown(0, 0)}
+		else:
+			if 0 not in self._coefficients:
+				self._coefficients[0] = Unknown(0, 0)
 
-		poly = Polynomial(self._a, self._b, self._c)
+		poly = Polynomial(self._coefficients)
 		poly.resolve()
 
 	def parse_number(self, negative):
@@ -93,7 +99,12 @@ class Parser:
 					self._lexer.raise_KeyError()
 				return self.parse_unknown(coef)
 
-		self._c = self._c + coef
+		if not hasattr(self, '_coefficients'):
+			self._coefficients = {}
+		if 0 not in self._coefficients:
+			self._coefficients[0] = Unknown(0, 0)
+
+		self._coefficients[0] = self._coefficients[0] + coef
 
 	def parse_unknown(self, coef):
 		unknown = Unknown(coef, 1)
@@ -108,12 +119,11 @@ class Parser:
 				self._lexer.raise_KeyError()
 			self._token = self._lexer.lexer(True)
 
-		if unknown.degree == 2:
-			self._a = self._a + unknown
-		elif unknown.degree == 1:
-			self._b = self._b + unknown
-		elif unknown.degree == 0:
-			self._c = self._c + unknown
-		else:
-			print("The polynomial degree is stricly greater than 2, I can't solve.")
-			raise Exception()
+		degree = int(unknown.degree)
+
+		if not hasattr(self, '_coefficients'):
+			self._coefficients = {}
+		if degree not in self._coefficients:
+			self._coefficients[degree] = Unknown(0, degree)
+		
+		self._coefficients[degree] = self._coefficients[degree] + unknown

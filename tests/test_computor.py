@@ -29,27 +29,27 @@ def test_positive_discriminant():
     assert output == expected
 
 
-# def test_degree_1():
-#     expected = textwrap.dedent("""\
-#         Reduced form: 1 * X^0 + 4 * X^1 = 0
-#         Polynomial degree: 1
-#         The solution is:
-#         -0.25
-#     """).strip()
+def test_degree_1():
+    expected = textwrap.dedent("""\
+        Reduced form: 1 * X^0 + 4 * X^1 = 0
+        Polynomial degree: 1
+        The solution is:
+        -0.25
+    """).strip()
 
-#     output = run("5 * X^0 + 4 * X^1 = 4 * X^0")
-#     assert output == expected
+    output = run("5 * X^0 + 4 * X^1 = 4 * X^0")
+    assert output == expected
 
 
-# def test_degree_3():
-#     expected = textwrap.dedent("""\
-#         Reduced form: 5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0
-#         Polynomial degree: 3
-#         The polynomial degree is strictly greater than 2, I can't solve.
-#     """).strip()
+def test_degree_3():
+    expected = textwrap.dedent("""\
+        Reduced form: 5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0
+        Polynomial degree: 3
+        The polynomial degree is strictly greater than 2, I can't solve.
+    """).strip()
 
-#     output = run("8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0")
-#     assert output == expected
+    output = run("8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0")
+    assert output == expected
 
 
 # def test_infinite_solutions():

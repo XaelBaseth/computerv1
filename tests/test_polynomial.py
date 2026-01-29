@@ -7,9 +7,9 @@ def test_degree_and_str():
     p = Polynomial(Unknown(2, 2), Unknown(3, 1), Unknown(4, 0))
     assert p.get_degree() == 2
     reduced = str(p)
-    assert "2.0 * X^2" in reduced
-    assert "3.0 * X^1" in reduced
-    assert "4.0 * X^0" in reduced
+    assert "2 * X^2" in reduced
+    assert "3 * X^1" in reduced
+    assert "4 * X^0" in reduced
 
 def test_linear_solution(capsys):
     p = Polynomial(Unknown(0, 2), Unknown(2, 1), Unknown(-4, 0))

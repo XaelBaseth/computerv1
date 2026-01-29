@@ -4,24 +4,25 @@ from computor.models.unknown import Unknown
 class Polynomial:
 	"""
 	Represents a polynomial equation in reduced form.
-	Stores coefficients as Unknown objects for degrees 0, 1, and 2.
+	Stores coefficients for all degrees.
 	"""
-
-	def __init__(self, a: Unknown, b: Unknown, c: Unknown):
-		self.a = a
-		self.b = b
-		self.c = c 
+	
+	def __init__(self, coefficients: dict[int, Unknown]):
+		"""
+		Args:
+			coefficients: Dictionary mapping degree -> Unknown object
+			Example: {0: Unknown(5, 0), 1: Unknown(-6, 1), 3: Unknown(-5.6, 3)}
+		"""
+		self.coefficients = coefficients
 	
 	def __str__(self) -> str:
-		"""Returns the reduced form as a string"""
+		"""Returns the reduced form as a string including zero coefficients for missing degrees."""
+		max_degree = self.get_degree()
 		terms = []
-		
-		if self.c.coef != 0 or (self.a.coef == 0 and self.b.coef == 0):
-			terms.append(f"{Unknown.fmt_coef(self.c.coef)} * X^0")
-		if self.b.coef != 0:
-			terms.append(f"{Unknown.fmt_coef(self.b.coef)} * X^1")
-		if self.a.coef != 0:
-			terms.append(f"{Unknown.fmt_coef(self.a.coef)} * X^2")
+
+		for degree in range(max_degree + 1):
+			unknown = self.coefficients.get(degree, Unknown(0, degree))
+			terms.append(f"{Unknown.fmt_coef(unknown.coef)} * X^{degree}")
 
 		result = terms[0]
 		for term in terms[1:]:
@@ -33,24 +34,29 @@ class Polynomial:
 		return f"Reduced form: {result} = 0"
 	
 	def get_degree(self) -> int:
-		"""Returns the degree of the polynomial"""
-		if self.a.coef != 0:
-			return 2
-		elif self.b.coef != 0:
-			return 1
-		else:
-			return 0
+		"""Returns the highest degree with non-zero coefficient"""
+		max_degree = 0
+		for degree, unknown in self.coefficients.items():
+			if unknown.coef != 0:
+				max_degree = max(max_degree, degree)
+		return max_degree
 	
 	def resolve(self):
 		degree = self.get_degree()
 		print(self)
 		
 		if degree == 0:
-			Polynomial.ResolveDefault(self.c)
+			c = self.coefficients.get(0, Unknown(0, 0))
+			Polynomial.ResolveDefault(c)
 		elif degree == 1:
-			Polynomial.ResolveLinear(self.b, self.c)
+			b = self.coefficients.get(1, Unknown(0, 1))
+			c = self.coefficients.get(0, Unknown(0, 0))
+			Polynomial.ResolveLinear(b, c)
 		elif degree == 2:
-			Polynomial.ResolveQuadratic(self.a, self.b, self.c)
+			a = self.coefficients.get(2, Unknown(0, 2))
+			b = self.coefficients.get(1, Unknown(0, 1))
+			c = self.coefficients.get(0, Unknown(0, 0))
+			Polynomial.ResolveQuadratic(a, b, c)
 		else:
 			print(f"Polynomial degree: {degree}")
 			print("The polynomial degree is strictly greater than 2, I can't solve.")
@@ -78,7 +84,10 @@ class Polynomial:
 		
 		solution = -c.coef / b.coef
 		print("The solution is:")
-		print(f"{solution:.6f}")
+		if solution.is_integer():
+			print(int(solution))
+		else:
+			print(solution)
 	
 	@staticmethod
 	def ResolveQuadratic(a: Unknown, b: Unknown, c: Unknown):
