@@ -52,34 +52,34 @@ def test_degree_3():
     assert output == expected
 
 
-# def test_infinite_solutions():
-#     expected = textwrap.dedent("""\
-#         Reduced form: 0 * X^0 = 0
-#         Any real number is a solution.
-#     """).strip()
+def test_infinite_solutions():
+    expected = textwrap.dedent("""\
+        Reduced form: 0 * X^0 = 0
+        Any real number is a solution.
+    """).strip()
 
-#     output = run("6 * X^0 = 6 * X^0")
-#     assert output == expected
-
-
-# def test_no_solution():
-#     expected = textwrap.dedent("""\
-#         Reduced form: -5 * X^0 = 0
-#         No solution.
-#     """).strip()
-
-#     output = run("10 * X^0 = 15 * X^0")
-#     assert output == expected
+    output = run("6 * X^0 = 6 * X^0")
+    assert output == expected
 
 
-# def test_negative_discriminant():
-#     expected = textwrap.dedent("""\
-#         Reduced form: 1 * X^0 + 2 * X^1 + 5 * X^2 = 0
-#         Polynomial degree: 2
-#         Discriminant is strictly negative, the two complex solutions are:
-#         -1/5 + 2i/5
-#         -1/5 - 2i/5
-#     """).strip()
+def test_no_solution():
+    expected = textwrap.dedent("""\
+        Reduced form: -5 * X^0 = 0
+        No solution.
+    """).strip()
 
-#     output = run("1 * X^0 + 2 * X^1 + 5 * X^2 = 0")
-#     assert output == expected
+    output = run("10 * X^0 = 15 * X^0")
+    assert output == expected
+
+
+def test_negative_discriminant():
+    expected = textwrap.dedent("""\
+        Reduced form: 1 * X^0 + 2 * X^1 + 5 * X^2 = 0
+        Polynomial degree: 2
+        Discriminant is strictly negative, the two complex solutions are:
+        -1/5 + 2i/5
+        -1/5 - 2i/5
+    """).strip()
+
+    output = run("1 * X^0 + 2 * X^1 + 5 * X^2 = 0")
+    assert output == expected

@@ -1,5 +1,6 @@
 from computor.math.sqrt import sqrt_newton
 from computor.models.unknown import Unknown
+from fractions import Fraction
 
 class Polynomial:
 	"""
@@ -64,7 +65,6 @@ class Polynomial:
 	@staticmethod
 	def ResolveDefault(c: Unknown):
 		"""Resolve degree 0 : c = 0"""
-		print("Polynomial degree: 0")
 		if c.coef == 0:
 			print("Any real number is a solution.")
 		else:
@@ -88,32 +88,57 @@ class Polynomial:
 			print(int(solution))
 		else:
 			print(solution)
-	
+
 	@staticmethod
 	def ResolveQuadratic(a: Unknown, b: Unknown, c: Unknown):
-		"""Resolve degree  2 : ax² + bx + c = 0"""
+		"""Resolve degree 2: ax² + bx + c = 0"""
 		print("Polynomial degree: 2")
 		if a.coef == 0:
 			return Polynomial.ResolveLinear(b, c)
-		
+
 		discriminant = b.coef ** 2 - 4 * a.coef * c.coef
-		
+
 		if discriminant > 0:
 			print("Discriminant is strictly positive, the two solutions are:")
-			sqrt_delta = sqrt_newton(discriminant)
-			x1 = (-b.coef + sqrt_delta) / (2 * a.coef)
-			x2 = (-b.coef - sqrt_delta) / (2 * a.coef)
-			print(f"{x2:.6f}")
-			print(f"{x1:.6f}")
-		
+			Polynomial.positive(discriminant, b, a)
+
 		elif discriminant == 0:
 			print("Discriminant is equal to zero, the solution is:")
 			x = -b.coef / (2 * a.coef)
 			print(f"{x:.6f}")
-		
+
 		else:
 			print("Discriminant is strictly negative, the two complex solutions are:")
-			real_part = -b.coef / (2 * a.coef)
-			imag_part = sqrt_newton(-discriminant) / (2 * a.coef)
-			print(f"{real_part:.6f} + {imag_part:.6f}i")
-			print(f"{real_part:.6f} - {imag_part:.6f}i")
+			Polynomial.negative(discriminant, b, a)
+	
+	@staticmethod
+	def positive(discriminant, b, a):
+		"""Calculate and print the two real solutions for positive discriminant."""
+		sqrt_delta = sqrt_newton(discriminant)
+		x1 = (-b.coef + sqrt_delta) / (2 * a.coef)
+		x2 = (-b.coef - sqrt_delta) / (2 * a.coef)
+		print(f"{x2:.6f}")
+		print(f"{x1:.6f}")
+
+	@staticmethod
+	def negative(discriminant, b, a):
+		"""Calculate and print the two complex solutions for negative discriminant."""
+		real_num = int(-b.coef)
+		real_den = int(2 * a.coef)
+		real_frac = Fraction(real_num, real_den)
+
+		sqrt_val = int(sqrt_newton(-discriminant))
+		imag_num = sqrt_val
+		imag_den = int(2 * a.coef)
+		imag_frac = Fraction(imag_num, imag_den)
+
+		if real_frac == 0:
+			print(f"{imag_frac.numerator}i/{imag_frac.denominator}")
+			print(f"-{imag_frac.numerator}i/{imag_frac.denominator}")
+		else:
+			if imag_frac.denominator == 1:
+				print(f"{real_frac} + {imag_frac.numerator}i")
+				print(f"{real_frac} - {imag_frac.numerator}i")
+			else:
+				print(f"{real_frac} + {imag_frac.numerator}i/{imag_frac.denominator}")
+				print(f"{real_frac} - {imag_frac.numerator}i/{imag_frac.denominator}")
