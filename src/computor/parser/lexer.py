@@ -56,7 +56,7 @@ class Lexer:
 	def raise_KeyError(self):
 		"""Exception KeyError with clear message"""
 		raise KeyError(
-			f"Unknown symbol '{self._token._value}' at index {self._scan.cursor}"
+			f"Unknown symbol at index {self._scan.cursor}"
 		)
 
 	def whitespace_token(self):
@@ -69,10 +69,17 @@ class Lexer:
 		self._token = token
 
 	def symbol_token(self):
-		"""Set Symbol Token"""
+		"""Set Symbol Token and check for invalid double symbols"""
 		token = Token(TOKEN_TYPE['Symbol'])
 		token = token + self._char
+		current_symbol = self._char
 		self._char = self._scan.read()
+		
+		if self._char and self._char in SYMBOL_CHARS:
+			raise KeyError(
+				f"Invalid double symbol '{current_symbol}{self._char}' at index {self._scan.cursor - 1}"
+			)
+	
 		self._token = token
 
 	def number_token(self):

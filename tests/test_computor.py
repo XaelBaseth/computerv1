@@ -16,10 +16,18 @@ def run(expr: str) -> str:
 
 def test_unknown_symbol():
     expected = textwrap.dedent("""\
-        "Unknown symbol '-' at index 8"
+        'Unknown symbol at index 1'
     """).strip()
 
-    output = run("5 * X^-0 = 4 * X^0 + 7 *X^1")
+    output = run("i * X^0 = 4 * X^0 + 7 *X^1")
+    assert output == expected
+
+def test_invalid_double_symbol():
+    expected = textwrap.dedent("""\
+        "Invalid double symbol '**' at index 3"
+    """).strip()
+
+    output = run("5 ** X^0 = 4 * X^0 + 7 *X^1")
     assert output == expected
 
 def test_any_correction():
