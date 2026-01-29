@@ -6,6 +6,7 @@ class Polynomial:
 	Represents a polynomial equation in reduced form.
 	Stores coefficients as Unknown objects for degrees 0, 1, and 2.
 	"""
+
 	def __init__(self, a: Unknown, b: Unknown, c: Unknown):
 		self.a = a
 		self.b = b
@@ -16,11 +17,11 @@ class Polynomial:
 		terms = []
 		
 		if self.c.coef != 0 or (self.a.coef == 0 and self.b.coef == 0):
-			terms.append(f"{self.c.coef} * X^0")
+			terms.append(f"{Unknown.fmt_coef(self.c.coef)} * X^0")
 		if self.b.coef != 0:
-			terms.append(f"{self.b.coef} * X^1")
+			terms.append(f"{Unknown.fmt_coef(self.b.coef)} * X^1")
 		if self.a.coef != 0:
-			terms.append(f"{self.a.coef} * X^2")
+			terms.append(f"{Unknown.fmt_coef(self.a.coef)} * X^2")
 
 		result = terms[0]
 		for term in terms[1:]:

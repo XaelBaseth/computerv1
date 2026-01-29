@@ -1,4 +1,3 @@
-
 from computor.parser.scanner import Scanner
 from computor.parser.token import Token, TOKEN_TYPE
 
@@ -9,6 +8,24 @@ NUMBER_CHARS = "0123456789"
 UNKNOWN_CHARS = "Xx"
 
 class Lexer:
+	"""
+	Lexical analyzer that converts an input character stream into tokens.
+
+	This lexer reads characters sequentially from a Scanner and groups them
+	into Token objects according to predefined character classes
+	(whitespace, symbols, numbers, unknown identifiers).
+
+	Supported token types:
+	- Whitespace
+	- Symbol
+	- Number (integer and decimal, including forms like ".5")
+	- Unknown (single-character identifiers such as 'X' or 'x')
+	- EOF
+
+	Invalid characters or malformed numbers (e.g. multiple decimal points)
+	raise a KeyError with position information.
+	"""
+	
 	def __init__(self, buffer):
 		self._scan = Scanner(buffer)
 		self._char = self._scan.read()

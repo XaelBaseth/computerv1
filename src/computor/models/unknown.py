@@ -5,8 +5,8 @@ class Unknown:
 	Provides basic arithmetic operations with scalars, string representation
 	and comparison based on the coefficient value. Used for constructing
 	and manipulating polynomials term by term.
-	
 	"""
+
 	def __init__(self, coef: float, degree: int):
 		self.coef = float(coef)
 		self.degree = degree
@@ -28,6 +28,14 @@ class Unknown:
 			return f"{coef_str}x²"
 		else:
 			return f"{coef_str}x^{self.degree}"
+
+	def fmt_coef(x: float) -> str:
+		"""
+		Formats the coefficient for display, removing unnecessary decimal points.
+		"""
+		if x.is_integer():
+			return str(int(x))
+		return str(x)
 	
 	def __repr__(self) -> str:
 		"""

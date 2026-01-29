@@ -1,7 +1,8 @@
 class Scanner:
 	"""
-	Simple character scanner for a string buffer.
+	Sequential character reader for a string buffer.
 	"""
+	
 	def __init__(self, buffer: str):
 		if not isinstance(buffer, str):
 			raise TypeError(f"Scanner buffer must be a string, got {type(buffer).__name__}")

@@ -1,3 +1,11 @@
+TOKEN_TYPE = {
+"EOF": 0,
+"Whitespace": 1,
+"Symbol": 2,
+"Number": 3,
+"Unknown": 4,
+}
+
 class Token:
 	"""
 	Represents a token produced by the Lexer.
@@ -31,10 +39,3 @@ class Token:
 		token._value = self._value
 		return token
 
-TOKEN_TYPE = {
-"EOF": 0,
-"Whitespace": 1,
-"Symbol": 2,
-"Number": 3,
-"Unknown": 4,
-}

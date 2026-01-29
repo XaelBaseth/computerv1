@@ -1,9 +1,28 @@
 from computor.models.unknown import Unknown
 from computor.models.polynomial import Polynomial
 from computor.parser.lexer import Lexer
-from computor.parser.token import TOKEN_TYPE, Token
+from computor.parser.token import TOKEN_TYPE
 
 class Parser:
+	"""
+	Syntax parser for polynomial equations of degree ≤ 2.
+
+	This parser consumes tokens produced by a Lexer and builds a polynomial
+	representation of an equation of the form:
+
+		ax^2 + bx + c = 0
+
+	The input expression may contain a left-hand side (LHS) and a right-hand
+	side (RHS). Terms on the RHS are algebraically moved to the LHS by applying
+	a sign inversion during parsing.
+
+	The parser accumulates coefficients for degrees 2, 1, and 0 into
+	Unknown objects, then constructs a Polynomial instance and resolves it.
+
+	Invalid syntax, unsupported operators, or malformed expressions
+	raise a KeyError via the lexer.
+	"""
+			
 	def __init__(self, buffer: str):
 		self._lexer = Lexer(buffer)
 		self._token = self._lexer.lexer(True)
