@@ -10,15 +10,6 @@ class Polynomial:
 		self.a = a
 		self.b = b
 		self.c = c 
-		
-	def get_degree(self) -> int:
-		"""Returns the degree of the polynomial"""
-		if self.a.coef != 0:
-			return 2
-		elif self.b.coef != 0:
-			return 1
-		else:
-			return 0
 	
 	def __str__(self) -> str:
 		"""Returns the reduced form as a string"""
@@ -39,6 +30,15 @@ class Polynomial:
 				result += f" + {term}"
 
 		return f"Reduced form: {result} = 0"
+	
+	def get_degree(self) -> int:
+		"""Returns the degree of the polynomial"""
+		if self.a.coef != 0:
+			return 2
+		elif self.b.coef != 0:
+			return 1
+		else:
+			return 0
 	
 	def resolve(self):
 		degree = self.get_degree()
@@ -65,7 +65,7 @@ class Polynomial:
 	
 	@staticmethod
 	def ResolveLinear(b: Unknown, c: Unknown):
-		"""Résout degré 1 : bx + c = 0"""
+		"""Resolve degree 1 : bx + c = 0"""
 		print("Polynomial degree: 1")
 		
 		if b.coef == 0:
@@ -81,7 +81,7 @@ class Polynomial:
 	
 	@staticmethod
 	def ResolveQuadratic(a: Unknown, b: Unknown, c: Unknown):
-		"""Résout degré 2 : ax² + bx + c = 0"""
+		"""Resolve degree  2 : ax² + bx + c = 0"""
 		print("Polynomial degree: 2")
 		if a.coef == 0:
 			return Polynomial.ResolveLinear(b, c)
